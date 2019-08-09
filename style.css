@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+}
+header {
+    display: flex;
+    background-color: green;
+    width: 100vw;
+    font-size: 2em;
+    justify-content: center;
+    align-items: center;
+}
+
+#left-section {
+    background-color: aqua;
+    height: 90vh;
+    width: 25vw;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+#right-section {
+    background-color: blueviolet;
+    height: 90vh;
+    width: 75vw;
+}
+
+.body-header {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.body-header input {
+    margin: auto 0;
+}
+
+/***********/
+/** Forms **/
+/***********/
+
+/* Add Project */
+
+.add-project-form {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: .7;
+}
+
+#project-form {
+    height: 25vh;
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: green;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.date-prio,
+#project-form h1 {
+    text-align: center;
+    margin-top: -5px;
+}
+
+.date-prio {
+    display: grid;
+    margin-top: 0px;
+}
+
+input,
+select,
+.add-project-button {
+    margin-top: 5px;
+}
