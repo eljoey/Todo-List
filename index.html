@@ -13,7 +13,7 @@
         <div class="projects">
             <!-- <div>Daily List</div> -->
             <div class="add-project">Add Project
-                <input type="button" value="+">
+                <input type="button" value="+" class="addProjectBTN">
                 
             </div>
         </div>
@@ -25,7 +25,10 @@
         </div>
     </div>
 
-    <div class="add-project-form">
+
+
+<!--HIDDEN FORMS-->
+    <div class="add-project-form hidden">
         <form id="project-form">
             <h1 class="project-header">Add Project</h1>
             <input type="text" placeholder="Project Name">
@@ -38,11 +41,11 @@
                 <option value="med">Medium</option>
                 <option value="high">High</option>
             </select></div>
-            <button class="add-project-button">Add</button>
+            <input type="button" class="add-project-button" value="Add">
         </form>
     </div>
     
-    <div class="add-todo">
+    <div class="add-todo hidden">
         <form>
             <input type="text" placeholder="Name">
             <input type="text" placeholder="Description">
