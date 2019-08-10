@@ -32,6 +32,8 @@ const Project = (name, description, dueDate, priority) => {
         return toDos[index];
     };
 
+    
+
     return {name, description, dueDate, priority, addToDo, getToDo, toDos};
 
 };
@@ -40,15 +42,18 @@ const Project = (name, description, dueDate, priority) => {
 
 const DisplayController = (() => {
     const renderProjectBar = () => {
+        const projectMainDiv = document.querySelector('.projects')
+
         resetProjects();
         resetForms();
 
-        const projectMainDiv = document.querySelector('.projects')
 
+                
         projectDirectory.forEach((x) => {
             let projectAdded = document.createElement('div');
             projectAdded.innerHTML = x.name;
             projectAdded.classList.add('project-' + projectDirectory.indexOf(x))
+            projectAdded.classList.add('prio-' + x.priority)
             projectAdded.addEventListener('click', () => {
                 EventHandler.showProjectTodos(projectDirectory.indexOf(x))
             }); 
@@ -56,8 +61,11 @@ const DisplayController = (() => {
         });
     }
     const renderTodoList = (project) => {
+        const projectHeader = document.querySelector('.proj-header')
+        
         resetToDos();
         resetForms();
+        editDeleteBTN(projectHeader)
 
         const todoDiv = document.querySelector('#right-section');
         
@@ -66,6 +74,7 @@ const DisplayController = (() => {
             todoAdded.innerHTML = x.title;
             todoAdded.classList.add('todo-' + project.toDos.indexOf(x));
             todoDiv.appendChild(todoAdded);
+            editDeleteBTN(todoDiv);
         });
     }
 
@@ -120,6 +129,18 @@ const DisplayController = (() => {
         todoName.value = '';
         todoDesc.value = '';
     }
+
+    const editDeleteBTN = (element) => {
+        const projectHeader = element
+        const trashBTN = document.createElement('i')
+        trashBTN.classList.add('fas', 'fa-trash-alt')
+        const editBTN = document.createElement('i')
+        editBTN.classList.add('fas', 'fa-edit')
+        projectHeader.appendChild(editBTN)
+        projectHeader.appendChild(trashBTN)
+    }
+
+    
 
     
 
@@ -217,11 +238,20 @@ const EventHandler = (() => {
         let newToDo = ToDo(name, desc)
         projectSelected.addToDo(newToDo);
         DisplayController.renderTodoList(projectSelected); 
-        DisplayController.hideForm();       
+        DisplayController.hideForm();     
     }
 
     const showProjectTodos = (projIndex) => {
-        projectSelected = projectDirectory[projIndex];
+        projectSelected = projectDirectory[projIndex];        
+        
+    //Sets name of selected project to header    
+        const projectHeader = document.querySelector('.proj-header')
+        
+        if (projectSelected.name === undefined) {            
+            projectHeader.innerHTML = projectDirectory[0].name
+        } else {
+            projectHeader.innerHTML = projectSelected.name;
+        } 
 
         DisplayController.renderTodoList(projectSelected);
     }
@@ -244,7 +274,7 @@ const EventHandler = (() => {
 
 //test
 //////////////
-EventHandler.addProject('Daily list', 'Things to do today', '', 'low');
+EventHandler.addProject('Daily List', 'Things to do today', '', 'low');
 EventHandler.addProject('Daily list2', 'Things to do today', '', 'low');
 EventHandler.addProject('Daily list3', 'Things to do today', '', 'low');
 EventHandler.addProject('Daily list4', 'Things to do today', '', 'low');
@@ -263,24 +293,14 @@ EventListeners.initializeListeners();
 
 
 //  TODO LIST
-//-Add - EventListeners
+//-Add - EventListeners (display selected project, and todo )
 //-Add - Project info render
 //-Add - ToDo info render
-//-Add- Button functions
+//-Add- Button functions *Edit and delete left
 //-Add - To Render so it adds edit and delete buttons for both project and todos
 //-Add - Ability to complete a todo (checkmark possibly)
 //-Add - Ability to change color of projects background to reflect their priority
-//-Add - Possibly create a visual for each project to display the days left until their due (probably wont add and just delete due date)
 //-Add - ToDo create and delete form
 //-Add - Project delete form
 
 
-
-//project selction
-//1. add event listener to each project added
-//2. event listener uses function to set project shown and then display the list of todo's
-//
-//
-//
-//
-//

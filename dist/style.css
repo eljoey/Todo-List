@@ -80,6 +80,13 @@ select,
     margin-top: 5px;
 }
 
+.dueDate {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+
 /** ADD TODO **/
 
 .add-todo-form {
