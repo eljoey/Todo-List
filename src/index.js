@@ -1,10 +1,16 @@
 
 
+
 // import { DisplayController } from './displayController.js'
 
 
 
 let projectDirectory = [];
+
+const projName = document.querySelector('.proj-form-name')
+const projDesc = document.querySelector('.proj-form-desc')
+const projDate = document.querySelector('.proj-form-date')
+const projPrio = document.querySelector('.proj-form-prio')
 
 
 
@@ -27,15 +33,13 @@ const Project = (name, description, dueDate, priority) => {
 
 };
 
-const addProject = (name, description, dueDate, priority) => {
-    let newProject = Project(name, description, dueDate, priority);
-    projectDirectory.push(newProject);
-};
-
-
+////////////////////////////////////
 
 const DisplayController = (() => {
     const renderProjectBar = () => {
+        resetProjects();
+        resetProjectForm();
+
         const projectMainDiv = document.querySelector('.projects')
 
         projectDirectory.forEach((x) => {
@@ -47,6 +51,7 @@ const DisplayController = (() => {
     }
     const renderTodoList = (project) => {
         resetToDos();
+
         const todoDiv = document.querySelector('#right-section');
         
         project.toDos.forEach((x) => {
@@ -69,10 +74,23 @@ const DisplayController = (() => {
         }
     }
 
+    const resetProjects = () => {
+        const projDisplay = document.querySelector('.projects');
+        let numberOfChildren = projDisplay.childElementCount;
+        let projLastChild = projDisplay.lastChild;
+
+        while ((numberOfChildren > 1)) {
+            projDisplay.removeChild(projLastChild);
+            numberOfChildren = projDisplay.childElementCount;
+            projLastChild = projDisplay.lastChild;
+        }
+    }
+
     const showAddProjectForm = () => {
         const projectForm = document.querySelector('.add-project-form');
         projectForm.setAttribute('style', 'display: grid;')
-    } 
+    }
+    
 
     const showAddToDoForm = () => {
         const todoForm = document.querySelector('.add-todo-form')
@@ -86,33 +104,61 @@ const DisplayController = (() => {
         });
     }
 
+    const resetProjectForm = () => {
+        let projName = document.querySelector('.proj-form-name')
+        let projDesc = document.querySelector('.proj-form-desc')
+        let projDate = document.querySelector('.proj-form-date')
+        let projPrio = document.querySelector('.proj-form-prio')
+
+        projName.value = '';
+        projDesc.value = '';
+        projDate.value = '';
+        projPrio.value = 'base';
+    }
+
 
     return {
         renderProjectBar, 
-        renderTodoList, 
-        resetToDos, 
+        renderTodoList,
         showAddProjectForm,
         showAddToDoForm,
         hideForm,
+        resetToDos,
         
     }
 })();
 
-
+///////////////////////////////////////////////////////
 
 const EventListeners = (() => {
     const initializeListeners = () => {
-        addProjectBTN();
+        addProjectForm();
         addToDoBTN();
         exitForm();
+        projectFormBTN();
     }
 
-    const addProjectBTN = () => {
+    const addProjectForm = () => {
         const projectBTN = document.querySelector('.addProjectBTN')
         projectBTN.addEventListener('click', DisplayController.showAddProjectForm)
+        
+    }
+//Gets Projects information and sets it.  I feel like this could be better set up.
+    const projectFormBTN = () => {
+        
+
+        const projectFormBTN = document.querySelector('.add-project-button');
+        projectFormBTN.addEventListener('click', () => {
+            let projNameValue = projName.value
+            let projDescValue = projDesc.value
+            let projDateValue = projDate.value
+            let projPrioValue = projPrio.value
+
+            EventHandler.addProject(projNameValue, projDescValue, projDateValue, projPrioValue);
+        });
     }
     
-    //Changes form back to hidden ONLY when the background is selected not the form div
+//Changes form back to hidden ONLY when the background is selected not the form div
     const exitForm = () => {
         const formBackground = document.querySelectorAll('.hidden')
         formBackground.forEach((x) => {
@@ -137,15 +183,33 @@ const EventListeners = (() => {
     }
 })();
 
+////////////////////////////////////
+
+const EventHandler = (() => {
+    
+    const addProject = (name, description, dueDate, priority) => {
+        let newProject = Project(name, description, dueDate, priority);
+        projectDirectory.push(newProject);
+        DisplayController.renderProjectBar();
+        // DisplayController.resetProjectForm();
+    };
+
+    
+
+    return {
+        addProject,
+    }
+})();
+
 
 
 
 
 //test
-addProject('Daily list', 'Things to do today', '', 'low');
-addProject('Daily list2', 'Things to do today', '', 'low');
-addProject('Daily list3', 'Things to do today', '', 'low');
-addProject('Daily list4', 'Things to do today', '', 'low');
+EventHandler.addProject('Daily list', 'Things to do today', '', 'low');
+EventHandler.addProject('Daily list2', 'Things to do today', '', 'low');
+EventHandler.addProject('Daily list3', 'Things to do today', '', 'low');
+EventHandler.addProject('Daily list4', 'Things to do today', '', 'low');
 projectDirectory[0].addToDo(ToDo(1, 2))
 projectDirectory[0].addToDo(ToDo(12, 2))
 projectDirectory[0].addToDo(ToDo(123, 2))
@@ -164,7 +228,7 @@ EventListeners.initializeListeners();
 //-Add - EventListeners
 //-Add - Project info render
 //-Add - ToDo info render
-//-Add - Button functions
+//-Add- Button functions
 //-Add - To Render so it adds edit and delete buttons for both project and todos
 //-Add - Ability to complete a todo (checkmark possibly)
 //-Add - Ability to change color of projects background to reflect their priority
