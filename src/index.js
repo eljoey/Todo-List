@@ -42,7 +42,7 @@ const DisplayController = (() => {
             let projectAdded = document.createElement('div');
             projectAdded.innerHTML = x.name;
             projectAdded.classList.add('project-' + projectDirectory.indexOf(x)) 
-            projectMainDiv.insertBefore(projectAdded, projectMainDiv.children[0])
+            projectMainDiv.appendChild(projectAdded)
         })
     }
     const renderTodoList = (project) => {
