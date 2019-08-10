@@ -69,9 +69,58 @@ const DisplayController = (() => {
         }
     }
 
+    const showAddProjectForm = () => {
+        const projectForm = document.querySelector('.add-project-form');
+        projectForm.setAttribute('style', 'display: grid;')
+    } 
 
-    return {renderProjectBar, renderTodoList, resetToDos}
+    const hideForm = () => {
+        const projectForm = document.querySelector('.add-project-form');
+        projectForm.setAttribute('style', 'display: none;')
+    }
+
+
+    return {
+        renderProjectBar, 
+        renderTodoList, 
+        resetToDos, 
+        showAddProjectForm,
+        hideForm,
+        
+    }
 })();
+
+
+
+const EventListeners = (() => {
+    const addProjectBTN = () => {
+        const projectBTN = document.querySelector('.addProjectBTN')
+        projectBTN.addEventListener('click', DisplayController.showAddProjectForm)
+    }
+
+    const exitForm = () => {
+        const formBackground = document.querySelectorAll('.hidden')
+        formBackground.forEach((x) => {
+            x.addEventListener('click', (e) => {
+                if (e.currentTarget == e.target) {
+                    DisplayController.hideForm();
+                    console.table(e)
+                }
+                console.table(formBackground)
+            }, false);
+        });
+        
+    }
+
+    return {
+        addProjectBTN,
+        exitForm,
+
+    }
+})();
+
+
+
 
 
 //test
@@ -88,5 +137,20 @@ projectDirectory[1].addToDo(ToDo(12, 2))
 projectDirectory[1].addToDo(ToDo(123, 2))
 DisplayController.renderProjectBar();
 DisplayController.renderTodoList(projectDirectory[0]);
+EventListeners.addProjectBTN();
+EventListeners.exitForm();
 
 // export { projectDirectory }
+
+
+//  TODO LIST
+//-Add - EventListeners
+//-Add - Project info render
+//-Add - ToDo info render
+//-Add - Button functions
+//-Add - To Render so it adds edit and delete buttons for both project and todos
+//-Add - Ability to complete a todo (checkmark possibly)
+//-Add - Ability to change color of projects background to reflect their priority
+//-Add - Possibly create a visual for each project to display the days left until their due (probably wont add and just delete due date)
+//-Add - ToDo create and delete form
+//-Add - Project delete form
