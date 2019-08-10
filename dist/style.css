@@ -44,8 +44,7 @@ header {
 
 /* Add Project */
 
-.add-project-form,
-.add-todo {
+.add-project-form {
     position: absolute;
     display: none;
     place-items: center;
@@ -83,6 +82,35 @@ select,
 
 /** ADD TODO **/
 
-.add-todo {
-    display: ;
+.add-todo-form {
+    position: absolute;
+    display: none;
+    place-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    opacity: .7;
+}
+
+.todo-form {
+    display: grid;
+    height: 35vh;
+    width: 35vh;
+    background-color: green;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.todo-form h1 {
+    text-align: center;
+    margin: auto;    
+}
+
+.todo-form input {
+    margin-bottom: 10px;
+    
+}
+
+.hidden {
+    display: none;
 }

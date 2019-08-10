@@ -74,9 +74,16 @@ const DisplayController = (() => {
         projectForm.setAttribute('style', 'display: grid;')
     } 
 
+    const showAddToDoForm = () => {
+        const todoForm = document.querySelector('.add-todo-form')
+        todoForm.setAttribute('style', 'display: grid;')
+    }
+
     const hideForm = () => {
-        const projectForm = document.querySelector('.add-project-form');
-        projectForm.setAttribute('style', 'display: none;')
+        const form = document.querySelectorAll('.hidden');
+        form.forEach((e) => {
+            e.setAttribute('style', 'display: none;')
+        });
     }
 
 
@@ -85,6 +92,7 @@ const DisplayController = (() => {
         renderTodoList, 
         resetToDos, 
         showAddProjectForm,
+        showAddToDoForm,
         hideForm,
         
     }
@@ -93,28 +101,38 @@ const DisplayController = (() => {
 
 
 const EventListeners = (() => {
+    const initializeListeners = () => {
+        addProjectBTN();
+        addToDoBTN();
+        exitForm();
+    }
+
     const addProjectBTN = () => {
         const projectBTN = document.querySelector('.addProjectBTN')
         projectBTN.addEventListener('click', DisplayController.showAddProjectForm)
     }
-
+    
+    //Changes form back to hidden ONLY when the background is selected not the form div
     const exitForm = () => {
         const formBackground = document.querySelectorAll('.hidden')
         formBackground.forEach((x) => {
             x.addEventListener('click', (e) => {
                 if (e.currentTarget == e.target) {
                     DisplayController.hideForm();
-                    console.table(e)
                 }
-                console.table(formBackground)
             }, false);
-        });
-        
+        });        
+    }
+
+    const addToDoBTN = () => {
+        const todoBTN = document.querySelector('.addToDoBTN');
+        todoBTN.addEventListener('click', DisplayController.showAddToDoForm)
+
     }
 
     return {
-        addProjectBTN,
         exitForm,
+        initializeListeners,
 
     }
 })();
@@ -137,8 +155,7 @@ projectDirectory[1].addToDo(ToDo(12, 2))
 projectDirectory[1].addToDo(ToDo(123, 2))
 DisplayController.renderProjectBar();
 DisplayController.renderTodoList(projectDirectory[0]);
-EventListeners.addProjectBTN();
-EventListeners.exitForm();
+EventListeners.initializeListeners();
 
 // export { projectDirectory }
 

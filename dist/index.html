@@ -10,8 +10,7 @@
 <body>
     <header>TodoList</header>
     <div id="left-section">
-        <div class="projects">
-            <!-- <div>Daily List</div> -->
+        <div class="projects">            
             <div class="add-project">Add Project
                 <input type="button" value="+" class="addProjectBTN">
                 
@@ -21,7 +20,7 @@
     <div id="right-section">
         <div class="body-header">
             <h1>Daily List</h1>
-            <input type="button" value="+">
+            <input type="button" value="+" class="addToDoBTN">
         </div>
     </div>
 
@@ -45,10 +44,12 @@
         </form>
     </div>
     
-    <div class="add-todo hidden">
-        <form>
+    <div class="add-todo-form hidden">
+        <form class="todo-form">
+            <h1 class="todo-header">Add ToDo</h1>
             <input type="text" placeholder="Name">
             <input type="text" placeholder="Description">
+            <input type="button" class="add-todo-button" value="Add">
         </form>
     </div>
     <script src="../src/index.js"></script>
