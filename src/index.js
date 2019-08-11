@@ -17,8 +17,8 @@ const todoDesc = document.querySelector('.todo-form-desc')
 
 
 
-const ToDo = (title, description) => {
-    return {title, description};
+const ToDo = (title) => {
+    return {title};
 };
 
 const Project = (name, description, dueDate, priority) => { 
@@ -31,10 +31,20 @@ const Project = (name, description, dueDate, priority) => {
     const getToDo = (index) => {
         return toDos[index];
     };
-
     
+    const getIndex = (obj) => {
+        return projectDirectory.indexOf(obj);
+    }
 
-    return {name, description, dueDate, priority, addToDo, getToDo, toDos};
+    return {
+        name, 
+        description, 
+        dueDate, 
+        priority, 
+        addToDo, 
+        getToDo, 
+        toDos,
+    };
 
 };
 
@@ -42,30 +52,28 @@ const Project = (name, description, dueDate, priority) => {
 
 const DisplayController = (() => {
     const renderProjectBar = () => {
-        const projectMainDiv = document.querySelector('.projects')
-
+        const projectMainDiv = document.querySelector('.projects');
         resetProjects();
         resetForms();
-
-
-                
+        
+        //renders each project and gives appropriate classes to style based off prio
         projectDirectory.forEach((x) => {
             let projectAdded = document.createElement('div');
             projectAdded.innerHTML = x.name;
-            projectAdded.classList.add('project-' + projectDirectory.indexOf(x))
-            projectAdded.classList.add('prio-' + x.priority)
+            projectAdded.classList.add('project-' + projectDirectory.indexOf(x));
+            projectAdded.classList.add('prio-' + x.priority);
             projectAdded.addEventListener('click', () => {
-                EventHandler.showProjectTodos(projectDirectory.indexOf(x))
+                EventHandler.showProjectTodos(projectDirectory.indexOf(x));
             }); 
-            projectMainDiv.appendChild(projectAdded)
+            projectMainDiv.appendChild(projectAdded);
         });
     }
     const renderTodoList = (project) => {
-        const projectHeader = document.querySelector('.proj-header')
-        
+        const projectHeader = document.querySelector('.proj-header');
+
         resetToDos();
         resetForms();
-        editDeleteBTN(projectHeader)
+        editDeleteBTN(projectHeader);
 
         const todoDiv = document.querySelector('#right-section');
         
@@ -73,8 +81,8 @@ const DisplayController = (() => {
             let todoAdded = document.createElement('div');
             todoAdded.innerHTML = x.title;
             todoAdded.classList.add('todo-' + project.toDos.indexOf(x));
-            todoDiv.appendChild(todoAdded);
-            editDeleteBTN(todoDiv);
+            todoDiv.appendChild(todoAdded);            
+            editDeleteBTN(todoAdded);
         });
     }
 
@@ -104,13 +112,12 @@ const DisplayController = (() => {
 
     const showAddProjectForm = () => {
         const projectForm = document.querySelector('.add-project-form');
-        projectForm.setAttribute('style', 'display: grid;')
+        projectForm.setAttribute('style', 'display: grid;');
     }
     
-
     const showAddToDoForm = () => {
-        const todoForm = document.querySelector('.add-todo-form')
-        todoForm.setAttribute('style', 'display: grid;')
+        const todoForm = document.querySelector('.add-todo-form');
+        todoForm.setAttribute('style', 'display: grid;');
     }
 
     const hideForm = () => {
@@ -127,17 +134,25 @@ const DisplayController = (() => {
         projPrio.value = 'base';
 
         todoName.value = '';
-        todoDesc.value = '';
     }
 
+    //Adds Edit and Delete icons to selected element
     const editDeleteBTN = (element) => {
-        const projectHeader = element
-        const trashBTN = document.createElement('i')
-        trashBTN.classList.add('fas', 'fa-trash-alt')
-        const editBTN = document.createElement('i')
-        editBTN.classList.add('fas', 'fa-edit')
-        projectHeader.appendChild(editBTN)
-        projectHeader.appendChild(trashBTN)
+        
+        //Prevents default 'Daily List' from getting delete buttons.  I dont want it to ever get deleted;
+        if (element.innerHTML == 'Daily List') return;
+
+        const trashBTN = document.createElement('i');
+        trashBTN.classList.add('fas', 'fa-trash-alt');
+        trashBTN.addEventListener('click', () => {
+            EventHandler.removeItem(element);
+        });
+
+        const editBTN = document.createElement('i');
+        editBTN.classList.add('fas', 'fa-edit');
+
+        element.appendChild(editBTN);
+        element.appendChild(trashBTN);
     }
 
     
@@ -167,24 +182,25 @@ const EventListeners = (() => {
     }
 
     const addProjectForm = () => {
-        const projectBTN = document.querySelector('.addProjectBTN')
-        projectBTN.addEventListener('click', DisplayController.showAddProjectForm)        
+        const projectBTN = document.querySelector('.addProjectBTN');
+        projectBTN.addEventListener('click', DisplayController.showAddProjectForm);
     }
 
-//Gets Projects information and sets it.  I feel like this could be better set up.
+    //Gets Projects information and sets it.  I feel like this could be better set up.
     const projectFormBTN = () => {
         const projectFormBTN = document.querySelector('.add-project-button');
         projectFormBTN.addEventListener('click', () => {
-            let projNameValue = projName.value
-            let projDescValue = projDesc.value
-            let projDateValue = projDate.value
-            let projPrioValue = projPrio.value
+            let projNameValue = projName.value;
+            let projDescValue = projDesc.value;
+            let projDateValue = projDate.value;
+            let projPrioValue = projPrio.value;
+            
 
             EventHandler.addProject(projNameValue, projDescValue, projDateValue, projPrioValue);
         });
     }
     
-//Changes form back to hidden ONLY when the background is selected not the form div
+    //Changes form back to hidden ONLY when the background is selected not the form div
     const exitForm = () => {
         const formBackground = document.querySelectorAll('.hidden');
         formBackground.forEach((x) => {
@@ -196,20 +212,19 @@ const EventListeners = (() => {
         });        
     }
 
-//Gets ToDo form info and adds it to the currently selected project
+    //Gets ToDo form info and adds it to the currently selected project
     const todoFormBTN = () => {
         const todoBTN = document.querySelector('.add-todo-button');
         todoBTN.addEventListener('click', () => {
-            let todoNameValue = todoName.value
-            let todoDescValue = todoDesc.value
+            let todoNameValue = todoName.value;
 
-            EventHandler.addToDo(todoNameValue, todoDescValue);
+            EventHandler.addToDo(todoNameValue);
         });
     }
 
     const addToDoBTN = () => {
         const todoBTN = document.querySelector('.addToDoBTN');
-        todoBTN.addEventListener('click', DisplayController.showAddToDoForm)
+        todoBTN.addEventListener('click', DisplayController.showAddToDoForm);
 
     }
 
@@ -223,7 +238,7 @@ const EventListeners = (() => {
 ////////////////////////////////////
 
 const EventHandler = (() => {
-    let projectSelected = projectDirectory[0];
+    // let projectSelected = projectDirectory[0];
 
     const addProject = (name, description, dueDate, priority) => {
         let newProject = Project(name, description, dueDate, priority);
@@ -233,9 +248,9 @@ const EventHandler = (() => {
     };
 
     const addToDo = (name, desc) => {
-        if (projectSelected === undefined) projectSelected = projectDirectory[0]
+        if (projectSelected === undefined) projectSelected = projectDirectory[0];
         
-        let newToDo = ToDo(name, desc)
+        let newToDo = ToDo(name, desc);
         projectSelected.addToDo(newToDo);
         DisplayController.renderTodoList(projectSelected); 
         DisplayController.hideForm();     
@@ -245,15 +260,32 @@ const EventHandler = (() => {
         projectSelected = projectDirectory[projIndex];        
         
     //Sets name of selected project to header    
-        const projectHeader = document.querySelector('.proj-header')
+        const projectHeader = document.querySelector('.proj-header');
         
         if (projectSelected.name === undefined) {            
-            projectHeader.innerHTML = projectDirectory[0].name
+            projectHeader.innerHTML = projectDirectory[0].name;
         } else {
             projectHeader.innerHTML = projectSelected.name;
         } 
 
         DisplayController.renderTodoList(projectSelected);
+    }
+
+    const removeItem = (element) => {
+        
+        if(element.className == 'proj-header') {
+            projectDirectory = projectDirectory.filter( i => {
+                return i.name !== projectSelected.name;
+            })
+            showProjectTodos(0);
+            DisplayController.renderProjectBar();
+        } else {
+            let index = element.className.slice(-1);
+            projectSelected.toDos.splice(index, 1);
+            DisplayController.renderTodoList(projectSelected);
+
+        }
+        
     }
     
 
@@ -262,9 +294,9 @@ const EventHandler = (() => {
     return {
         addProject,
         addToDo,
-        projectSelected,
+        // projectSelected,
         showProjectTodos,
-        
+        removeItem
     }
 })();
 
@@ -278,16 +310,18 @@ EventHandler.addProject('Daily List', 'Things to do today', '', 'low');
 EventHandler.addProject('Daily list2', 'Things to do today', '', 'low');
 EventHandler.addProject('Daily list3', 'Things to do today', '', 'low');
 EventHandler.addProject('Daily list4', 'Things to do today', '', 'low');
-projectDirectory[0].addToDo(ToDo(1, 2))
-projectDirectory[0].addToDo(ToDo(12, 2))
-projectDirectory[0].addToDo(ToDo(123, 2))
-projectDirectory[0].addToDo(ToDo(1234, 2))
-projectDirectory[1].addToDo(ToDo(1, 2))
-projectDirectory[1].addToDo(ToDo(12, 2))
-projectDirectory[1].addToDo(ToDo(123, 2))
+projectDirectory[0].addToDo(ToDo(1))
+projectDirectory[0].addToDo(ToDo(12))
+projectDirectory[0].addToDo(ToDo(123))
+projectDirectory[0].addToDo(ToDo(1234))
+projectDirectory[1].addToDo(ToDo(1))
+projectDirectory[1].addToDo(ToDo(12))
+projectDirectory[1].addToDo(ToDo(123))
+let projectSelected = projectDirectory[0]
 DisplayController.renderProjectBar();
 DisplayController.renderTodoList(projectDirectory[0]);
 EventListeners.initializeListeners();
+
 ///////////////
 // export { projectDirectory }
 
