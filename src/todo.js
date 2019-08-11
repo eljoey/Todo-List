@@ -1,5 +1,5 @@
 const ToDo = (title) => {
-    return {title};
+	return {title};
 };
 
-export { ToDo }
+export { ToDo };
