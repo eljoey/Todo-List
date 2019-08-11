@@ -71,6 +71,7 @@ const DisplayController = (() => {
     const renderTodoList = (project) => {
         const projectHeader = document.querySelector('.proj-header');
 
+        renderProjectInfo();
         resetToDos();
         resetForms();
         editDeleteBTN(projectHeader);
@@ -147,12 +148,18 @@ const DisplayController = (() => {
         trashBTN.addEventListener('click', () => {
             EventHandler.removeItem(element);
         });
-
-        const editBTN = document.createElement('i');
-        editBTN.classList.add('fas', 'fa-edit');
-
-        element.appendChild(editBTN);
+        
         element.appendChild(trashBTN);
+    }
+
+    const renderProjectInfo = () => {
+        const dueDate = document.querySelector('.proj-dueDate')
+        const priority = document.querySelector('.proj-prio')
+        const description = document.querySelector('.proj-desc')
+
+        dueDate.innerHTML = projectSelected.dueDate
+        priority.innerHTML = projectSelected.priority
+        description.innerHTML = projectSelected.description
     }
 
     
@@ -188,16 +195,16 @@ const EventListeners = (() => {
 
     //Gets Projects information and sets it.  I feel like this could be better set up.
     const projectFormBTN = () => {
+        
         const projectFormBTN = document.querySelector('.add-project-button');
         projectFormBTN.addEventListener('click', () => {
             let projNameValue = projName.value;
             let projDescValue = projDesc.value;
             let projDateValue = projDate.value;
-            let projPrioValue = projPrio.value;
-            
+            let projPrioValue = projPrio.value;            
 
             EventHandler.addProject(projNameValue, projDescValue, projDateValue, projPrioValue);
-        });
+        });        
     }
     
     //Changes form back to hidden ONLY when the background is selected not the form div
@@ -225,7 +232,6 @@ const EventListeners = (() => {
     const addToDoBTN = () => {
         const todoBTN = document.querySelector('.addToDoBTN');
         todoBTN.addEventListener('click', DisplayController.showAddToDoForm);
-
     }
 
     return {
@@ -238,7 +244,6 @@ const EventListeners = (() => {
 ////////////////////////////////////
 
 const EventHandler = (() => {
-    // let projectSelected = projectDirectory[0];
 
     const addProject = (name, description, dueDate, priority) => {
         let newProject = Project(name, description, dueDate, priority);
@@ -294,7 +299,6 @@ const EventHandler = (() => {
     return {
         addProject,
         addToDo,
-        // projectSelected,
         showProjectTodos,
         removeItem
     }
@@ -327,14 +331,9 @@ EventListeners.initializeListeners();
 
 
 //  TODO LIST
-//-Add - EventListeners (display selected project, and todo )
 //-Add - Project info render
-//-Add - ToDo info render
-//-Add- Button functions *Edit and delete left
-//-Add - To Render so it adds edit and delete buttons for both project and todos
 //-Add - Ability to complete a todo (checkmark possibly)
 //-Add - Ability to change color of projects background to reflect their priority
-//-Add - ToDo create and delete form
-//-Add - Project delete form
+
 
 
