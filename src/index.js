@@ -331,7 +331,6 @@ EventListeners.initializeListeners();
 
 
 //  TODO LIST
-//-Add - Project info render
 //-Add - Ability to complete a todo (checkmark possibly)
 //-Add - Ability to change color of projects background to reflect their priority
 
