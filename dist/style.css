@@ -1,3 +1,7 @@
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -5,37 +9,96 @@ body {
     height: 100vh;
     display: flex;
     flex-wrap: wrap;
+    background-color: rgb(211, 202, 198);
 }
 header {
     display: flex;
-    background-color: green;
+    background-color: rgb(94, 213, 255);
     width: 100vw;
+    height: 6vh;
     font-size: 2em;
     justify-content: center;
     align-items: center;
+    border-bottom: 4px solid darkslategrey;
 }
+
+/** Project Display **/
 
 #left-section {
-    background-color: aqua;
-    height: 90vh;
-    width: 25vw;
+    background-color: rgb(94, 255, 217);
+    border: 4px solid darkslategrey;
+    border-radius: 6px;
+    height: 80%;
+    width: 20%;
     font-size: 1.5em;
     text-align: center;
+    margin: 5vh auto;
 }
 
+.add-project {
+    display: flex;
+    justify-content: center;
+    place-items: center;
+}
+
+.add-project input {
+    font-weight: bold;
+}
+
+.projects {
+    margin: 15px 0;
+}
+
+.prio-low {
+}
+
+
+/** ToDo Display **/
+
 #right-section {
-    background-color: blueviolet;
-    height: 90vh;
-    width: 75vw;
+    border: 4px solid darkslategrey;
+    border-radius: 6px;
+    background-color: rgb(94, 132, 255);
+    height: 80%;
+    width: 60%;
+    margin: 5vh auto;
 }
 
 .body-header {
     display: flex;
     justify-content: space-evenly;
+    margin-bottom: -20px;
 }
 
 .body-header input {
     margin: auto 0;
+}
+
+.proj-header {
+    text-decoration-line: underline;
+}
+
+.proj-header i {
+    font-size: 1.5rem;
+    margin-left: 10px;
+}
+
+.proj-info {
+    margin-bottom: 25px;
+    border-bottom: 2px solid darkslategrey;
+}
+
+p {
+    font-size: 1.2rem;
+    margin: 0 0 0 15px;
+    text-align: left;
+}
+
+.todos {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 15px 5px 15px;
+    border-bottom: 2px solid darkslategrey;
 }
 
 /***********/
@@ -51,7 +114,7 @@ header {
     height: 100vh;
     width: 100vw;
     background-color: black;
-    opacity: .7;
+    opacity: .9;
 }
 
 #project-form {
@@ -96,7 +159,7 @@ select,
     height: 100vh;
     width: 100vw;
     background-color: black;
-    opacity: .7;
+    opacity: .9;
 }
 
 .todo-form {
